@@ -1,6 +1,6 @@
 # mb-ui-components
 
-no Docs yet..you'll figure it out 🙃
+no docs yet..you'll figure it out 🙃
 
 ## Project setup
 ```
