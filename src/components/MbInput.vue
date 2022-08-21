@@ -1,18 +1,31 @@
 <template>
   <div class="input-wrap">
     <div class="label-placeholder"></div>
-    <div class="input-and-label">
+    <div 
+      class="input-and-label"
+      :style="{'border-radius': radius + 'rem'}"
+    >
+      <mdicon class="icon" v-if="prepend" :name="prepend" />
       <input 
         type="text"
         :class="{'error-border': error.err && validation}"
+        :style="{'border-radius': radius + 'rem'}"
         :value="modelValue"
         placeholder=" "
         @input="(e) => {if(!lazy) $emit('update:modelValue', e.target.value)}"
         @change="(e) => {if(lazy) $emit('update:modelValue', e.target.value)}"
       > <!--input-->
-      <label>{{ label }}</label>
+      <label
+        :style="{left: prepend ? 2+'rem' : .5+'rem'}"
+      >
+        {{ label }}
+      </label>
     </div>
-    <div v-if="validation" :class="{message: true, 'error-bgcolor': triggeredErrors.length > 0}">
+    <div
+      v-if="validation"
+      :class="{message: true, 'error-bgcolor': triggeredErrors.length > 0}"
+      :style="{width: `calc(100% - ${radius}rem)`}"
+    > <!--error-message-->
       <span v-if="triggeredErrors.length > 0">
         {{ errorString }}
       </span>
@@ -43,6 +56,14 @@ export default {
     error: {
       type: Array,
       required: false
+    },
+    radius: {
+      type: String,
+      required: false
+    },
+    prepend: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -61,9 +82,20 @@ export default {
 </script>
 
 <style scoped>
+  .input-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .input-and-label {
     position: relative;
+    display: flex;
+    align-items: center;
     height: 2.3rem;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
   }
 
   .label-placeholder {
@@ -98,12 +130,15 @@ export default {
   {
     opacity: 1;
     top: 0rem;
+    left: .5rem !important;
     transform: translateY(-100%);
     font-size: .8rem;
   }
 
   .message {
     height: 1rem;
+    width: 100%;
+    box-sizing: border-box;
     line-height: 1rem;
     text-align: center;
     padding: .1rem .5rem;
@@ -127,5 +162,10 @@ export default {
 
   .error-border {
     border: 1px solid #ff0033;
+  }
+
+  .icon {
+    margin-left: .3rem;
+    color: #aaa;
   }
 </style>

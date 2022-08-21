@@ -2,14 +2,14 @@
   h:<input v-model="wrapperHeight" type="range" min="50" max="800" step="5">
   w:<input v-model="wrapperWidth" type="range" min="50" :max="maxWidth" step="5">
   <div id="components-wrapper" :style="{width: wrapperWidth + 'px', height: wrapperHeight + 'px'}">
-    <input type="text">
-    <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
-    <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
+    Standard HTML <input type="text">
+    <mb-input id="test-input" validation radius=".3" prepend="pencil" v-model="mbInputValue" :error="formErrors.testInput" label="test" />
+    <mb-input id="test-input" validation radius=".5" v-model="mbInputValue" :error="formErrors.testInput" label="test" />
     <mb-input id="test-input" validation lazy v-model="mbInputValue" :error="formErrors.testInput" label="test" />
     <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
     <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
 
-    <mb-input id="test-input" validation lazy v-model="mbEmailValue" :error="formErrors.email" label="Email" />
+    <mb-input id="test-input" validation lazy prepend="at" v-model="mbEmailValue" :error="formErrors.email" label="Email" />
     {{mbInputValue}}
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       /*TODO: move to global*/ emailRegex: new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-      wrapperHeight: 200,
+      wrapperHeight: 540,
       wrapperWidth: 500,
       maxWidth: 0,
 
@@ -69,16 +69,19 @@ export default {
       this.maxWidth = window.innerWidth
     })
   },
-  // checking the rules against inputs
-  watch: {
-    mbInputValue(newMbInputValue) {
+  methods: {
+    validateTest() {
       this.formErrors.testInput = []
-      this.inputValidators.forEach(rule => this.formErrors.testInput.push(rule(newMbInputValue)))
+      this.inputValidators.forEach(rule => this.formErrors.testInput.push(rule(this.mbInputValue)))
     },
-    mbEmailValue(newMbEmailValue) {
+    validateEmail() {
       this.formErrors.email = []
-      this.emailRules.forEach(rule => this.formErrors.email.push(rule(newMbEmailValue)))
+      this.emailRules.forEach(rule => this.formErrors.email.push(rule(this.mbEmailValue)))
     }
+  },
+  watch: {
+    mbInputValue() { this.validateTest() },
+    mbEmailValue() { this.validateEmail() }
   }
 }
 </script>
@@ -94,12 +97,15 @@ export default {
 }
 
 #components-wrapper {
-  background-color: #ccc;
+  background-color: rgb(244, 244, 244);
   height: 10rem;
   width: 10rem;
+  padding: 1rem;
+  border-radius: 1rem;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 </style>
