@@ -1,5 +1,7 @@
 # mb-ui-components
 
+no Docs yet..you'll figure it out 🙃
+
 ## Project setup
 ```
 npm install
