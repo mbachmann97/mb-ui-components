@@ -11,7 +11,7 @@
       @keydown.shift.tab.exact="hideOptions"
       @focus="showOptions = true"
     />
-    <!--<Transition>-->
+    <Transition>
     <div v-if="showOptions && !exactMatch" class="options" ref="options">
       <button
         @keydown.tab.exact="onOptionTab"
@@ -23,7 +23,7 @@
         </button>
       <div v-if="filteredOptions.length === 0" id="no-match">There are no matching options</div>
     </div>
-    <!--</Transition>-->
+    </Transition>
     {{ modelValue }}
   </div>
 </template>
