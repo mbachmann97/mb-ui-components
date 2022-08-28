@@ -10,18 +10,34 @@
     <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
 
     <mb-input id="test-input" validation lazy prepend="at" v-model="mbEmailValue" :error="formErrors.email" label="Email" />
+
+    <mb-select
+      id="test-input"
+      :options="testObjects"
+      :representation="option => { return `${option.lastName}, ${option.firstName}` }"
+      validation
+      lazy
+      v-model="mbSelectValue"
+      :error="formErrors.select" 
+      label="Select Test" />
+
+    <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
+    
     {{mbInputValue}}
+    <div>outside {{ mbSelectValue }}</div>
   </div>
 </template>
 
 <script>
 
 import MbInput from '@/components/MbInput'
+import MbSelect from '@/components/MbSelect'
 
 export default {
   name: 'App',
   components: {
-    MbInput
+    MbInput,
+    MbSelect
   },
   data() {
     return {
@@ -33,6 +49,8 @@ export default {
       // mb-input data
       mbInputValue: '',
       mbEmailValue: '',
+      mbSelectValue: {},
+
       inputValidators: [
         (value) =>  { return value.length < 1 ?
                     {err:true, message:"This field is required!!!"} :
@@ -52,10 +70,23 @@ export default {
                     {err:true, message:"Not a valid email"} :
                     {err:false} }
       ],
+      selectRules: [ // TODO: write check for wrong selection
+        (value) =>  { return value.length < 1 ?
+                    {err:true, message:"This field is required!!!"} :
+                    {err:false} },
+      ],
       formErrors: {
         testInput: [],
-        email: []
-      }
+        email: [],
+        select: []
+      },
+
+      testObjects: [
+        {firstName: 'Markus', lastName: 'Bachmann', budget: 9000},
+        {firstName: 'Peter', lastName: 'Ikk', budget: 1020},
+        {firstName: 'Lisa', lastName: 'Szech', budget: 129},
+        {firstName: 'Alina', lastName: 'Van Bergen', budget: 87822}
+      ]
     }
   },
   created() {

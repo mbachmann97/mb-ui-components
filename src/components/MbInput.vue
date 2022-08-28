@@ -12,8 +12,10 @@
         :style="{'border-radius': radius + 'rem'}"
         :value="modelValue"
         placeholder=" "
-        @input="(e) => {if(!lazy) $emit('update:modelValue', e.target.value)}"
-        @change="(e) => {if(lazy) $emit('update:modelValue', e.target.value)}"
+        @focus="$emit('focus')"
+        @blur="$emit('blur')"
+        @input="e => {if(!lazy) $emit('update:modelValue', e.target.value)}"
+        @change="e => {if(lazy) $emit('update:modelValue', e.target.value)}"
       > <!--input-->
       <label
         :style="{left: prepend ? 2+'rem' : .5+'rem'}"
