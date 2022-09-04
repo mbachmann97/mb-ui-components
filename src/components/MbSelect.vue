@@ -12,7 +12,7 @@
       @focus="showOptions = true"
     />
     <Transition>
-    <div v-if="showOptions && !exactMatch" class="options" ref="options">
+    <div v-if="showOptions && !exactMatch" :class="{ options: true, 'no-gap': nogap }" ref="options">
       <button
         @keydown.tab.exact="onOptionTab"
         @keydown.shift.tab="test"
@@ -21,7 +21,7 @@
         >
           {{ representation(option) || option }}
         </button>
-      <div v-if="filteredOptions.length === 0" id="no-match">There are no matching options</div>
+      <div v-if="filteredOptions.length === 0" id="no-match">{{ noMatchText || 'no match' }}</div>
     </div>
     </Transition>
     {{ modelValue }}
@@ -73,6 +73,14 @@ export default {
       required: false
     },
     lazy: { // (showing options)
+      type: Boolean,
+      required: false
+    },
+    noMatchText: {
+      type: String,
+      required: false
+    },
+    nogap: {
       type: Boolean,
       required: false
     }
@@ -193,6 +201,10 @@ export default {
     color: #F8F0E3;
     margin-left: .4rem;
     font-size: .8rem;
+  }
+
+  .no-gap {
+    transform: translateY(-.8rem);
   }
 
   .v-enter-active,

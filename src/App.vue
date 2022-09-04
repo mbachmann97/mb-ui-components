@@ -16,10 +16,14 @@
       :options="testObjects"
       :representation="option => { return `${option.lastName}, ${option.firstName}` }"
       validation
+      prepend="cancel"
       lazy
       v-model="mbSelectValue"
       :error="formErrors.select" 
-      label="Select Test" />
+      label="Select Test"
+      no-match-text="no matching person"
+      nogap
+    />
 
     <mb-input id="test-input" validation v-model="mbInputValue" :error="formErrors.testInput" label="test" />
     
